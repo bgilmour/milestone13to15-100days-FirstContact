@@ -20,7 +20,7 @@ struct ContactRowView: View {
                 .overlay(
                     RoundedRectangle(cornerRadius: 10)
                         .stroke(Color(red: 0.5, green: 0.5, blue: 0.5), lineWidth: 2)
-                        .shadow(color: Color.secondary, radius: 2)
+                        .shadow(color: Color.gray, radius: 2)
                 )
                 .padding(.trailing, 4)
 

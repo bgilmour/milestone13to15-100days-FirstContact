@@ -41,7 +41,7 @@ struct AddContactView: View {
                                     .clipShape(RoundedRectangle(cornerRadius: 20))
                                     .overlay(
                                         RoundedRectangle(cornerRadius: 20)
-                                            .stroke(Color.black, lineWidth: 4)
+                                            .stroke(Color(red: 0.5, green: 0.5, blue: 0.5), lineWidth: 4)
                                             .shadow(color: Color.gray, radius: 4)
                                     )
                                     .padding([.top, .bottom])
