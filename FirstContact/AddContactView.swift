@@ -6,16 +6,19 @@
 //
 
 import SwiftUI
+import CoreLocation
 
 struct AddContactView: View {
     @Environment(\.presentationMode) var presentationMode
     @ObservedObject var contacts: Contacts
+    let fetcher: LocationFetcher
     @State private var showingImagePicker = false
     @State private var image: Image?
     @State private var inputImage: UIImage?
     @State private var firstName = ""
     @State private var lastName = ""
     @State private var profession = ""
+    @State private var location: CLLocationCoordinate2D?
 
     var body: some View {
         GeometryReader { geo in
@@ -61,6 +64,24 @@ struct AddContactView: View {
                     Section {
                         TextField("Profession", text: $profession)
                     }
+
+                    Section {
+                        HStack {
+                            Spacer()
+                            VStack {
+                                if location == nil {
+                                    Button("Add Location") {
+                                        withAnimation {
+                                            location = fetcher.lastKnownLocation
+                                        }
+                                    }
+                                } else {
+                                    Text("lat: \(location!.latitude, specifier: "%.3f")   long: \(location!.longitude, specifier: "%.3f")")
+                                }
+                            }
+                            Spacer()
+                        }
+                    }
                 }
                 .navigationBarTitle("New Contact")
                 .navigationBarItems(
@@ -69,7 +90,7 @@ struct AddContactView: View {
                     },
                     trailing: Button("Save") {
                         let imageUUID = saveImage()
-                        contacts.entries.append(Contact(id: UUID(), firstName: firstName, lastName: lastName, profession: profession, image: imageUUID))
+                        contacts.entries.append(Contact(id: UUID(), firstName: firstName, lastName: lastName, profession: profession, image: imageUUID, location: location))
                         presentationMode.wrappedValue.dismiss()
                     }
                     .disabled(isSaveDisabled())
@@ -110,6 +131,6 @@ struct AddContactView: View {
 
 struct AddContactView_Previews: PreviewProvider {
     static var previews: some View {
-        AddContactView(contacts: Contacts())
+        AddContactView(contacts: Contacts(), fetcher: LocationFetcher())
     }
 }

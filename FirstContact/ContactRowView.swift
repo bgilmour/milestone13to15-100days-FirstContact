@@ -33,6 +33,9 @@ struct ContactRowView: View {
             }
 
             Spacer()
+
+            Image(systemName: contact.location != nil ? "location.fill" : "location.slash.fill")
+                .foregroundColor(.purple)
         }
     }
 }

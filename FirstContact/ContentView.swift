@@ -10,6 +10,7 @@ import SwiftUI
 struct ContentView: View {
     @ObservedObject var contacts = Contacts()
     @State private var showingAddContact = false
+    let locationFetcher = LocationFetcher()
 
     var body: some View {
         NavigationView {
@@ -26,8 +27,11 @@ struct ContentView: View {
                 Text("Add")
             })
             .sheet(isPresented: $showingAddContact) {
-                AddContactView(contacts: contacts)
+                AddContactView(contacts: contacts, fetcher: locationFetcher)
             }
+            .onAppear(perform: {
+                locationFetcher.start()
+            })
         }
     }
 }
